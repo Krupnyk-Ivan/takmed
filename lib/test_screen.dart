@@ -3,7 +3,12 @@ import './Logic/question_db_helper.dart';
 import './Logic/test_question.dart';
 
 class TestScreen extends StatefulWidget {
-  const TestScreen({super.key});
+  final String category; // Add category as a parameter
+
+  const TestScreen({
+    super.key,
+    required this.category,
+  }); // Receive category from the constructor
 
   @override
   State<TestScreen> createState() => _TestScreenState();
@@ -14,6 +19,7 @@ class _TestScreenState extends State<TestScreen> {
   int _currentQuestion = 0;
   int? _selectedIndex;
   bool _answered = false;
+  bool _loading = true;
 
   @override
   void initState() {
@@ -22,9 +28,12 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Future<void> _loadQuestions() async {
-    final questions = await QuestionDatabaseHelper().getAllQuestions();
+    final questions = await QuestionDatabaseHelper().getQuestionsByCategory(
+      widget.category,
+    ); // Use the passed category
     setState(() {
       _questions = questions;
+      _loading = false;
     });
   }
 
@@ -43,7 +52,6 @@ class _TestScreenState extends State<TestScreen> {
         _answered = false;
       });
     } else {
-      // End of test
       showDialog(
         context: context,
         builder:
@@ -63,7 +71,7 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_questions.isEmpty) {
+    if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 

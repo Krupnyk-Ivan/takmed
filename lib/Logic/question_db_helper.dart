@@ -22,22 +22,24 @@ class QuestionDatabaseHelper {
       path,
       version: 1,
       onCreate: (db, version) async {
-        await db.execute('''
+        await db.execute('''        
           CREATE TABLE questions (
             id INTEGER PRIMARY KEY,
             question TEXT,
             options TEXT,
-            correctIndex INTEGER
+            correctIndex INTEGER,
+            category TEXT
           )
         ''');
 
-        // Вставка 10 запитань про протокол MARCH
+        // Вставка запитань протоколу MARCH
         await db.insert('questions', {
           'id': 1,
           'question': 'Що означає "M" у протоколі MARCH?',
           'options':
               'Move (Переміщення)|Meds (Ліки)|Mass (Маса)|Monitoring (Моніторинг)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -46,6 +48,7 @@ class QuestionDatabaseHelper {
           'options':
               'Airway (Дихальні шляхи)|Circulation (Кровообіг)|Move (Переміщення)|Head (Голова)',
           'correctIndex': 2,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -54,6 +57,7 @@ class QuestionDatabaseHelper {
           'options':
               'Відновлення дихальних шляхів|Перевірка пульсу|Зупинка кровотечі|Переміщення постраждалого',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -62,6 +66,7 @@ class QuestionDatabaseHelper {
           'options':
               'Circulation (Кровообіг)|Control (Контроль)|Cortex (Кора головного мозку)|Chest (Грудна клітка)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -71,6 +76,7 @@ class QuestionDatabaseHelper {
           'options':
               'Circulation (Кровообіг)|Move (Переміщення)|Head (Голова)|Airway (Дихальні шляхи)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -79,6 +85,7 @@ class QuestionDatabaseHelper {
           'options':
               'Перевірити дихання|Переміщувати постраждалого|Налагодити контроль кровотечі|Перевірити пульс',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -86,6 +93,7 @@ class QuestionDatabaseHelper {
           'question': 'Що означає "H" у протоколі MARCH?',
           'options': 'Head (Голова)|Heart (Серце)|Heat (Тепло)|Harm (Шкода)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -94,6 +102,7 @@ class QuestionDatabaseHelper {
           'options':
               'Head (Голова)|Respiration (Дихання)|Move (Переміщення)|Circulation (Кровообіг)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -103,6 +112,7 @@ class QuestionDatabaseHelper {
           'options':
               'Move (Переміщення)|Airway (Дихальні шляхи)|Respiration (Дихання)|Circulation (Кровообіг)',
           'correctIndex': 0,
+          'category': 'MARCH',
         });
 
         await db.insert('questions', {
@@ -111,9 +121,56 @@ class QuestionDatabaseHelper {
           'options':
               'Відновлення кровообігу|Перевірка дихальних шляхів|Переміщення пацієнта|Перевірка пульсу',
           'correctIndex': 0,
+          'category': 'MARCH',
+        });
+
+        // Вставка запитань протоколу CLS
+        await db.insert('questions', {
+          'id': 11,
+          'question': 'Що є першим кроком у протоколі CLS?',
+          'options': 'Airway|Circulation|Breathing|Disability',
+          'correctIndex': 0,
+          'category': 'CLS',
+        });
+
+        await db.insert('questions', {
+          'id': 12,
+          'question': 'Що означає "C" у протоколі CLS?',
+          'options': 'Circulation|Compression|Check|Control',
+          'correctIndex': 0,
+          'category': 'CLS',
+        });
+
+        await db.insert('questions', {
+          'id': 13,
+          'question':
+              'Що потрібно зробити на етапі "Breathing" у протоколі CLS?',
+          'options':
+              'Перевірити дихання|Налагодити кровообіг|Переміщувати постраждалого|Контролювати температуру',
+          'correctIndex': 0,
+          'category': 'CLS',
+        });
+
+        await db.insert('questions', {
+          'id': 14,
+          'question': 'Що таке "Disability" в протоколі CLS?',
+          'options':
+              'Оцінка свідомості|Оцінка пульсу|Оцінка дихання|Оцінка кровообігу',
+          'correctIndex': 0,
+          'category': 'CLS',
         });
       },
     );
+  }
+
+  Future<List<TestQuestion>> getQuestionsByCategory(String category) async {
+    final db = await database;
+    final result = await db.query(
+      'questions',
+      where: 'category = ?',
+      whereArgs: [category],
+    );
+    return result.map((e) => TestQuestion.fromMap(e)).toList();
   }
 
   Future<List<TestQuestion>> getAllQuestions() async {

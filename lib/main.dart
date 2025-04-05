@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/civilian': (context) => const CivilianPage(),
         '/aid': (context) => const FirstAidScreen(),
         '/choose_test': (context) => const ChooseTestPage(),
-        '/test_runner': (context) => const TestScreen(),
+        '/test_runner': (context) => const TestScreen(category: 'CLS'),
       },
     );
   }
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // Список сторінок для вкладок
   final List<Widget> _pages = [
     const HomeContent(), // Головна
-    const TestScreen(), // Тест
+    const ChooseTestPage(), // Тест
     const ProfilePage(), // Профіль
   ];
 
