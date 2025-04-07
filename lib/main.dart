@@ -6,17 +6,17 @@ import 'profile_page.dart';
 import 'test_screen.dart';
 import 'civilian_page.dart';
 import 'FirstAidScreen.dart';
-import 'video_screen_widget.dart';
 import 'choose_test_page.dart';
 import 'Logic/delete_database.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'add_medicine_screen.dart';
+import 'Logic/delete_database_medicine.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Delete the database on app start (useful for testing)
   await deleteDatabaseFile();
+  await deleteMedicineDatabase();
 
   runApp(MyApp());
 }
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 8, 8, 8),
         ),
       ),
+
       home: const MyHomePage(title: 'Tak!Med'),
       initialRoute: '/home',
       routes: {
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/aid': (context) => const FirstAidScreen(),
         '/choose_test': (context) => const ChooseTestPage(),
         '/test_runner': (context) => const TestScreen(category: 'CLS'),
+        '/add_medicine': (context) => const AddMedicineScreen(),
       },
     );
   }

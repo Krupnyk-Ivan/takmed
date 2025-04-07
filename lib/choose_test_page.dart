@@ -27,24 +27,28 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Go back to the previous screen
+            Navigator.pop(context);
           },
         ),
-        flexibleSpace: Center(
-          child: RichText(
-            text: const TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Tak!',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+        flexibleSpace: Stack(
+          children: [
+            Center(
+              child: RichText(
+                text: const TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Tak!',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                    TextSpan(
+                      text: 'Med',
+                      style: TextStyle(color: Colors.red, fontSize: 20),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: 'Med',
-                  style: TextStyle(color: Colors.red, fontSize: 20),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: FutureBuilder<List<Test>>(
@@ -66,61 +70,62 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
 
           final tests = snapshot.data!;
 
-          return SingleChildScrollView(
+          return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Виберіть тест',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                const Center(
+                  child: Text(
+                    'Виберіть тест',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(height: 20),
-                // Loop through tests and display each one in a styled card
-                ...tests.map(
-                  (test) => Container(
-                    width: double.infinity, // Set the container width to full
-                    height: 100, // Fixed height for the button
-                    margin: const EdgeInsets.only(
-                      bottom: 16.0,
-                    ), // Space between buttons
-                    child: Card(
-                      color: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: InkWell(
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // 2 items in a row
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio:
+                          1.8, // Width / Height ratio (change to affect height)
+                    ),
+                    itemCount: tests.length,
+                    itemBuilder: (context, index) {
+                      final test = tests[index];
+                      return InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder:
-                                  (context) => TestScreen(
-                                    category:
-                                        test.title, // Pass test title as category
-                                  ),
+                                  (context) => TestScreen(category: test.title),
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
                                 test.title,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 10),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -134,7 +139,7 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
           BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Тест'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профіль'),
         ],
-        currentIndex: 1, // "Головна" is active
+        currentIndex: 1,
         selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
         onTap: (index) {
           if (index == 0) {

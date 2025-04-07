@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'video_screen_widget.dart';
 
 class MarchProtocolPage extends StatelessWidget {
   const MarchProtocolPage({super.key});
@@ -52,7 +53,12 @@ class MarchProtocolPage extends StatelessWidget {
               Colors.red,
               context,
               () {
-                Navigator.pushNamed(context, '/testvideo');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const VideoScreenWidget(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 10),

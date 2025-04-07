@@ -3,12 +3,9 @@ import './Logic/question_db_helper.dart';
 import './Logic/test_question.dart';
 
 class TestScreen extends StatefulWidget {
-  final String category; // Add category as a parameter
+  final String category;
 
-  const TestScreen({
-    super.key,
-    required this.category,
-  }); // Receive category from the constructor
+  const TestScreen({super.key, required this.category});
 
   @override
   State<TestScreen> createState() => _TestScreenState();
@@ -30,7 +27,7 @@ class _TestScreenState extends State<TestScreen> {
   Future<void> _loadQuestions() async {
     final questions = await QuestionDatabaseHelper().getQuestionsByCategory(
       widget.category,
-    ); // Use the passed category
+    );
     setState(() {
       _questions = questions;
       _loading = false;
@@ -56,11 +53,14 @@ class _TestScreenState extends State<TestScreen> {
         context: context,
         builder:
             (_) => AlertDialog(
-              title: const Text('Test Completed'),
-              content: const Text('You have finished the test.'),
+              title: const Text('Тест завершено'),
+              content: const Text('Ви пройшли усі запитання.'),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.pop(context); // close dialog
+                    Navigator.pop(context); // go back
+                  },
                   child: const Text('OK'),
                 ),
               ],
@@ -78,50 +78,92 @@ class _TestScreenState extends State<TestScreen> {
     final question = _questions[_currentQuestion];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Test')),
+      appBar: AppBar(
+        title: Text(widget.category),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Question ${_currentQuestion + 1}/${_questions.length}',
-              style: const TextStyle(fontSize: 18),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Питання ${_currentQuestion + 1}/${_questions.length}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             const SizedBox(height: 10),
             Text(
               question.question,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             ...List.generate(question.options.length, (index) {
               final isCorrect = index == question.correctIndex;
               final isSelected = index == _selectedIndex;
 
-              Color? color;
+              Color color = Colors.white;
               if (_answered) {
                 if (isSelected && isCorrect) {
-                  color = Colors.green;
+                  color = Colors.green.shade400;
                 } else if (isSelected && !isCorrect) {
-                  color = Colors.red;
+                  color = Colors.red.shade400;
                 } else if (isCorrect) {
-                  color = Colors.green.withOpacity(0.3);
+                  color = Colors.green.shade100;
                 }
               }
 
-              return Card(
-                color: color,
-                child: ListTile(
-                  title: Text(question.options[index]),
-                  onTap: _answered ? null : () => _checkAnswer(index),
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ElevatedButton(
+                  onPressed: _answered ? null : () => _checkAnswer(index),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: color,
+                    foregroundColor: Colors.black,
+                    elevation: 2,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    disabledBackgroundColor: color,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      question.options[index],
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
                 ),
               );
             }),
             const Spacer(),
             if (_answered)
-              ElevatedButton(
-                onPressed: _nextQuestion,
-                child: const Text('Next'),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _nextQuestion,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Далі',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
               ),
           ],
         ),

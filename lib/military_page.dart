@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'march_protocol_page.dart';
-import 'video_screen_widget.dart';
 
 class MilitaryPage extends StatelessWidget {
   const MilitaryPage({super.key});
@@ -54,13 +52,9 @@ class MilitaryPage extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const VideoScreenWidget(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/march');
                 },
+
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -76,7 +70,7 @@ class MilitaryPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Рівень навчок надання доломоги для всіх військових',
+                        'Рівень навчок надання допомоги для всіх військових',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ],

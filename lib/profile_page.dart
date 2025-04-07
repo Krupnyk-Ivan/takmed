@@ -10,22 +10,29 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        title: RichText(
-          textAlign: TextAlign.center,
-          text: const TextSpan(
-            children: [
-              TextSpan(
-                text: 'Tak!',
-                style: TextStyle(color: Colors.black, fontSize: 20),
+        flexibleSpace: Stack(
+          children: [
+            Center(
+              child: RichText(
+                text: const TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Tak!',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                    TextSpan(
+                      text: 'Med',
+                      style: TextStyle(color: Colors.red, fontSize: 20),
+                    ),
+                  ],
+                ),
               ),
-              TextSpan(
-                text: 'Med',
-                style: TextStyle(color: Colors.red, fontSize: 20),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: Padding(
