@@ -7,35 +7,6 @@ class MarchProtocolPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './Logic/question_db_helper.dart';
-import './Logic/test_question.dart';
+import '../database/question_db/question_db_helper.dart';
+import '../database/question_db/test_question.dart';
 
 class TestScreen extends StatefulWidget {
   final String category;

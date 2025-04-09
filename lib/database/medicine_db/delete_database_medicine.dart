@@ -7,7 +7,7 @@ Future<void> deleteMedicineDatabase() async {
   final dbPath = await getDatabasesPath();
 
   // Path to the medicine database (replace 'medicines.db' with the correct name if necessary)
-  final path = join(dbPath, 'medicines.db');
+  final path = join(dbPath, 'medicine.db');
 
   try {
     // Delete the database file

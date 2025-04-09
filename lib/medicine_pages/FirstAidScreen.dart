@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './Logic/medicine_database_helper.dart';
-import './Logic/medicine.dart'; // Your medicine model
+import '../database/medicine_db/medicine_database_helper.dart';
+import '../database/medicine_db/medicine.dart'; // Your medicine model
 import 'first_aid_category_screen.dart';
 
 class FirstAidScreen extends StatefulWidget {

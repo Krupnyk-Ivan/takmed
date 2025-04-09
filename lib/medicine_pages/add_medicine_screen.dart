@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Add this to format the date
-import './Logic/medicine.dart';
-import './Logic/medicine_database_helper.dart'; // Path to the database helper class
+import 'package:intl/intl.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import '../database/medicine_db/medicine.dart';
+import '../database/medicine_db/medicine_database_helper.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class AddMedicineScreen extends StatefulWidget {
   const AddMedicineScreen({super.key});
@@ -14,8 +21,8 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
   final _nameController = TextEditingController();
   final _noteController = TextEditingController();
   IconData? _selectedIcon;
-  DateTime? _expirationDate; // Variable for expiration date
-  String? _selectedCategory; // Variable for category
+  DateTime? _expirationDate;
+  String? _selectedCategory;
 
   // Categories to choose from
   final List<String> _categories = [
@@ -25,13 +32,20 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
     'Бинти та шини',
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    tz.initializeTimeZones();
+  }
+
   // Select an expiration date
   Future<void> _selectExpirationDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+      locale: Locale('uk', 'UA'),
     );
     if (picked != null && picked != _expirationDate)
       setState(() {
@@ -39,7 +53,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
       });
   }
 
-  // Save the medicine to the database
+  // Save the medicine to the database and schedule a notification
   void _saveMedicine() async {
     final name = _nameController.text.trim();
     if (name.isEmpty ||
@@ -64,7 +78,36 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
     // Save the medicine to SQLite
     await MedicineDatabaseHelper().insertMedicine(medicine);
 
+    // Schedule the notification for the expiration date
+    _scheduleNotification(medicine);
+
     Navigator.pop(context); // Go back to the previous screen
+  }
+
+  Future<void> _scheduleNotification(Medicine medicine) async {
+    final androidDetails = AndroidNotificationDetails(
+      'medicine_channel',
+      'Medicine Notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+      playSound: true,
+    );
+    final platformDetails = NotificationDetails(android: androidDetails);
+
+    final expirationDate = tz.TZDateTime.now(
+      tz.local,
+    ).add(Duration(seconds: 10)); // Set 1 minute later
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      123123,
+      'Термін придатності ліків!',
+      'Ліки ${medicine.name} закінчуються ${DateFormat('yyyy-MM-dd').format(medicine.expirationDate)}.',
+      expirationDate,
+      platformDetails,
+      androidScheduleMode: AndroidScheduleMode.exact, // доданий параметр
+      payload: 'default_payload',
+      matchDateTimeComponents: DateTimeComponents.dateAndTime,
+    );
   }
 
   @override

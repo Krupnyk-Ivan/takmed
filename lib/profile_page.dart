@@ -6,35 +6,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -76,7 +47,6 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
@@ -154,28 +124,4 @@ class ProfilePage extends StatelessWidget {
   }
 
   // **Bottom Navigation Bar**
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Головна'),
-        BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Тести'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профіль'),
-      ],
-      currentIndex: 2, // "Profile" is the active tab
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.grey,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.pushReplacementNamed(context, '/home');
-            break;
-          case 1:
-            Navigator.pushReplacementNamed(context, '/test');
-            break;
-          case 2:
-            break; // Already on this page
-        }
-      },
-    );
-  }
 }

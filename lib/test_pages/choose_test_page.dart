@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './Logic/test_database_helper.dart';
-import './Logic/test.dart';
+import '../database/test_db/test_database_helper.dart';
+import '../database/test_db/test.dart';
 import 'test_screen.dart';
 
 class ChooseTestPage extends StatefulWidget {
@@ -22,35 +22,6 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: FutureBuilder<List<Test>>(
         future: _testsFuture,
         builder: (context, snapshot) {
@@ -131,23 +102,6 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
               ],
             ),
           );
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Головна'),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Тест'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профіль'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home');
-          } else if (index == 1) {
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/profile');
-          }
         },
       ),
     );
