@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../database/medicine_db/medicine_database_helper.dart';
 import '../database/medicine_db/medicine.dart'; // Your medicine model
 import 'first_aid_category_screen.dart';
+import '../app_navigator.dart';
+import 'package:provider/provider.dart';
+import 'add_medicine_screen.dart';
 
 class FirstAidScreen extends StatefulWidget {
   const FirstAidScreen({super.key});
@@ -33,36 +36,9 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -114,7 +90,7 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/add_medicine');
+                  appNav.navigateTo(const AddMedicineScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -133,7 +109,6 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
@@ -175,41 +150,11 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
   }
 
   void _showMedicinesForCategory(
-    BuildContext context, // First argument should be BuildContext
-    String category, // Second argument is the category (String)
+    BuildContext context,
+    String category,
     Future<List<Medicine>> medicines,
   ) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FirstAidCategoryScreen(category: category),
-      ),
-    );
-  }
-
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: 2,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.grey,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.pushReplacementNamed(context, '/home');
-            break;
-          case 1:
-            Navigator.pushReplacementNamed(context, '/test');
-            break;
-          case 2:
-            Navigator.pushReplacementNamed(context, '/profile');
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: "Tests"),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-      ],
-    );
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+    appNav.navigateTo(FirstAidCategoryScreen(category: category));
   }
 }

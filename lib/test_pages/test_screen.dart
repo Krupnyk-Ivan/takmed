@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../database/question_db/question_db_helper.dart';
 import '../database/question_db/test_question.dart';
+import 'package:provider/provider.dart';
+import '../app_navigator.dart';
 
 class TestScreen extends StatefulWidget {
   final String category;
@@ -42,6 +44,8 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   void _nextQuestion() {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     if (_currentQuestion < _questions.length - 1) {
       setState(() {
         _currentQuestion++;
@@ -58,8 +62,8 @@ class _TestScreenState extends State<TestScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context); // close dialog
-                    Navigator.pop(context); // go back
+                    Navigator.of(context).pop();
+                    appNav.goBack();
                   },
                   child: const Text('OK'),
                 ),
@@ -71,6 +75,8 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -78,11 +84,6 @@ class _TestScreenState extends State<TestScreen> {
     final question = _questions[_currentQuestion];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

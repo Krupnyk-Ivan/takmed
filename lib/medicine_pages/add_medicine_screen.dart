@@ -6,6 +6,9 @@ import 'package:timezone/timezone.dart' as tz;
 import '../database/medicine_db/medicine.dart';
 import '../database/medicine_db/medicine_database_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../app_navigator.dart';
+import 'package:provider/provider.dart';
+import 'first_aid_screen.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -55,6 +58,8 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
 
   // Save the medicine to the database and schedule a notification
   void _saveMedicine() async {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     final name = _nameController.text.trim();
     if (name.isEmpty ||
         _selectedIcon == null ||
@@ -80,8 +85,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
 
     // Schedule the notification for the expiration date
     _scheduleNotification(medicine);
-
-    Navigator.pop(context); // Go back to the previous screen
+    appNav.navigateTo(const FirstAidScreen());
   }
 
   Future<void> _scheduleNotification(Medicine medicine) async {
@@ -113,35 +117,6 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(

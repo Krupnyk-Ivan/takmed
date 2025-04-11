@@ -29,35 +29,6 @@ class _VideoScreenWidgetState extends State<VideoScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tak!',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: 'Med',
-                      style: TextStyle(color: Colors.red, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -78,24 +49,6 @@ class _VideoScreenWidgetState extends State<VideoScreenWidget> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Головна'),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Тест'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профіль'),
-        ],
-        currentIndex: 0, // "Головна" активна
-        selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/test');
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/profile');
-          }
-        },
       ),
     );
   }

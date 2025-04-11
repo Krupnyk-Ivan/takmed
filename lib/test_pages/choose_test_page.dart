@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../database/test_db/test_database_helper.dart';
 import '../database/test_db/test.dart';
 import 'test_screen.dart';
+import 'package:provider/provider.dart';
+import '../app_navigator.dart';
 
 class ChooseTestPage extends StatefulWidget {
   const ChooseTestPage({super.key});
@@ -21,6 +23,8 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     return Scaffold(
       body: FutureBuilder<List<Test>>(
         future: _testsFuture,
@@ -67,13 +71,7 @@ class _ChooseTestPageState extends State<ChooseTestPage> {
                       final test = tests[index];
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => TestScreen(category: test.title),
-                            ),
-                          );
+                          appNav.navigateTo(TestScreen(category: test.title));
                         },
                         child: Container(
                           decoration: BoxDecoration(

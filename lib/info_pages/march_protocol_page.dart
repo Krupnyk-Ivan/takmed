@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'video_screen_widget.dart';
+import 'package:provider/provider.dart';
+import '../app_navigator.dart';
 
 class MarchProtocolPage extends StatelessWidget {
   const MarchProtocolPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -24,12 +28,7 @@ class MarchProtocolPage extends StatelessWidget {
               Colors.red,
               context,
               () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const VideoScreenWidget(),
-                  ),
-                );
+                appNav.navigateTo(const VideoScreenWidget());
               },
             ),
             const SizedBox(height: 10),

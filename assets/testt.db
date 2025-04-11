@@ -1,0 +1,42 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "questions" (
+	"id"	INTEGER,
+	"question"	TEXT,
+	"options"	TEXT,
+	"correctIndex"	INTEGER,
+	"category"	TEXT,
+	PRIMARY KEY("id")
+);
+CREATE TABLE IF NOT EXISTS "stats" (
+	"id"	INTEGER,
+	"user_id"	INTEGER,
+	"test_id"	INTEGER,
+	"correct_answers"	INTEGER,
+	"total_questions"	INTEGER,
+	"completion_time"	INTEGER,
+	"date_taken"	TEXT,
+	PRIMARY KEY("id")
+);
+CREATE TABLE IF NOT EXISTS "tests" (
+	"id"	INTEGER,
+	"title"	TEXT,
+	"route"	TEXT,
+	PRIMARY KEY("id")
+);
+INSERT INTO "questions" VALUES (1,'Що означає "M" у протоколі MARCH?','Move (Переміщення)|Meds (Ліки)|Mass (Маса)|Monitoring (Моніторинг)',0,'MARCH');
+INSERT INTO "questions" VALUES (2,'Який із наступних етапів є першим у протоколі MARCH?','Airway (Дихальні шляхи)|Circulation (Кровообіг)|Move (Переміщення)|Head (Голова)',2,'MARCH');
+INSERT INTO "questions" VALUES (3,'Що є основною метою етапу "Airway" у протоколі MARCH?','Відновлення дихальних шляхів|Перевірка пульсу|Зупинка кровотечі|Переміщення постраждалого',0,'MARCH');
+INSERT INTO "questions" VALUES (4,'Що означає "C" у протоколі MARCH?','Circulation (Кровообіг)|Control (Контроль)|Cortex (Кора головного мозку)|Chest (Грудна клітка)',0,'MARCH');
+INSERT INTO "questions" VALUES (5,'Якщо пацієнт перебуває в стані шоку, на якому етапі протоколу MARCH потрібно звертати найбільшу увагу?','Circulation (Кровообіг)|Move (Переміщення)|Head (Голова)|Airway (Дихальні шляхи)',0,'MARCH');
+INSERT INTO "questions" VALUES (6,'Що слід робити на етапі "Respiration" протоколу MARCH?','Перевірити дихання|Переміщувати постраждалого|Налагодити контроль кровотечі|Перевірити пульс',0,'MARCH');
+INSERT INTO "questions" VALUES (7,'Що означає "H" у протоколі MARCH?','Head (Голова)|Heart (Серце)|Heat (Тепло)|Harm (Шкода)',0,'MARCH');
+INSERT INTO "questions" VALUES (8,'Який із етапів протоколу MARCH є останнім?','Head (Голова)|Respiration (Дихання)|Move (Переміщення)|Circulation (Кровообіг)',0,'MARCH');
+INSERT INTO "questions" VALUES (9,'Який етап протоколу MARCH зосереджений на переміщенні постраждалого?','Move (Переміщення)|Airway (Дихальні шляхи)|Respiration (Дихання)|Circulation (Кровообіг)',0,'MARCH');
+INSERT INTO "questions" VALUES (10,'Що є метою етапу "Circulation" у протоколі MARCH?','Відновлення кровообігу|Перевірка дихальних шляхів|Переміщення пацієнта|Перевірка пульсу',0,'MARCH');
+INSERT INTO "questions" VALUES (11,'Що є першим кроком у протоколі CLS?','Airway|Circulation|Breathing|Disability',0,'CLS');
+INSERT INTO "questions" VALUES (12,'Що означає "C" у протоколі CLS?','Circulation|Compression|Check|Control',0,'CLS');
+INSERT INTO "questions" VALUES (13,'Що потрібно зробити на етапі "Breathing" у протоколі CLS?','Перевірити дихання|Налагодити кровообіг|Переміщувати постраждалого|Контролювати температуру',0,'CLS');
+INSERT INTO "questions" VALUES (14,'Що таке "Disability" в протоколі CLS?','Оцінка свідомості|Оцінка пульсу|Оцінка дихання|Оцінка кровообігу',0,'CLS');
+INSERT INTO "tests" VALUES (1,'CLS','/cls');
+INSERT INTO "tests" VALUES (2,'MARCH','/march');
+COMMIT;

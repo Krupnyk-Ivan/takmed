@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../app_navigator.dart';
+import 'package:provider/provider.dart';
+import 'medicine_pages/first_aid_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -67,6 +70,8 @@ class ProfilePage extends StatelessWidget {
 
   // **Profile Buttons Grid**
   Widget _buildProfileButtonsGrid(BuildContext context) {
+    final appNav = Provider.of<AppNavigator>(context, listen: false);
+
     return Column(
       children: [
         Row(
@@ -85,7 +90,7 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildProfileButton(context, 'Аптечка', () {
-              Navigator.pushNamed(context, '/aid');
+              appNav.navigateTo(const FirstAidScreen());
             }),
             _buildProfileButton(context, 'Донат', () {
               Navigator.pushNamed(context, '/donate');
