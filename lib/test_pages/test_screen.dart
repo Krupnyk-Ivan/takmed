@@ -3,6 +3,7 @@ import '../database/question_db/question_db_helper.dart';
 import '../database/question_db/test_question.dart';
 import 'package:provider/provider.dart';
 import '../app_navigator.dart';
+import '../database/stats_db_helper.dart';
 
 class TestScreen extends StatefulWidget {
   final String category;
@@ -19,10 +20,13 @@ class _TestScreenState extends State<TestScreen> {
   int? _selectedIndex;
   bool _answered = false;
   bool _loading = true;
+  int _score = 0;
+  late DateTime _startTime;
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now();
     _loadQuestions();
   }
 
@@ -40,10 +44,14 @@ class _TestScreenState extends State<TestScreen> {
     setState(() {
       _selectedIndex = index;
       _answered = true;
+
+      if (index == _questions[_currentQuestion].correctIndex) {
+        _score++;
+      }
     });
   }
 
-  void _nextQuestion() {
+  void _nextQuestion() async {
     final appNav = Provider.of<AppNavigator>(context, listen: false);
 
     if (_currentQuestion < _questions.length - 1) {
@@ -53,12 +61,26 @@ class _TestScreenState extends State<TestScreen> {
         _answered = false;
       });
     } else {
+      final duration = DateTime.now().difference(_startTime).inSeconds;
+
+      // Save to stats DB
+      await StatsDatabaseHelper().insertStat({
+        'userId': 1, // Adjust if you have real users
+        'testId': widget.category.hashCode,
+        'score': _score,
+        'timeTaken': duration,
+      });
+
       showDialog(
         context: context,
         builder:
             (_) => AlertDialog(
               title: const Text('Тест завершено'),
-              content: const Text('Ви пройшли усі запитання.'),
+              content: Text(
+                'Ви пройшли усі запитання.\n\n'
+                'Результат: $_score з ${_questions.length}\n'
+                'Час: $duration сек.',
+              ),
               actions: [
                 TextButton(
                   onPressed: () {

@@ -4,7 +4,8 @@ class Medicine {
   final int iconCode;
   final String note;
   final DateTime expirationDate;
-  final String category; // Add category field
+  final String category;
+  final bool isDangerous;
 
   Medicine({
     this.id,
@@ -12,7 +13,8 @@ class Medicine {
     required this.iconCode,
     required this.note,
     required this.expirationDate,
-    required this.category, // Add category to the constructor
+    required this.category,
+    required this.isDangerous,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +24,8 @@ class Medicine {
       'iconCode': iconCode,
       'note': note,
       'expirationDate': expirationDate.toIso8601String(),
-      'category': category, // Include category in the map
+      'category': category,
+      'isDangerous': isDangerous ? 1 : 0, // зберігаємо як int у SQLite
     };
   }
 
@@ -33,7 +36,8 @@ class Medicine {
       iconCode: map['iconCode'],
       note: map['note'],
       expirationDate: DateTime.parse(map['expirationDate']),
-      category: map['category'], // Add category when creating the object
+      category: map['category'],
+      isDangerous: map['isDangerous'] == 1, // читаємо як bool
     );
   }
 }

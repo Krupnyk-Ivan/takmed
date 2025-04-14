@@ -53,16 +53,37 @@ class _FirstAidCategoryScreenState extends State<FirstAidCategoryScreen> {
             itemBuilder: (context, index) {
               final medicine = medicineList[index];
               return ListTile(
+                tileColor:
+                    medicine.isDangerous ? Colors.red.withOpacity(0.1) : null,
                 leading: Icon(
                   IconData(medicine.iconCode, fontFamily: 'MaterialIcons'),
+                  color: medicine.isDangerous ? Colors.red : null,
                 ),
-                title: Text(medicine.name),
+                title: Text(
+                  medicine.name,
+                  style: TextStyle(
+                    color: medicine.isDangerous ? Colors.red : null,
+                    fontWeight: medicine.isDangerous ? FontWeight.bold : null,
+                  ),
+                ),
                 subtitle: Text(
                   'Термін придатності: ${medicine.expirationDate.toLocal()}',
                 ),
-                trailing: const Icon(Icons.arrow_forward),
+                trailing: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  onPressed: () async {
+                    await MedicineDatabaseHelper().deleteMedicine(medicine.id!);
+                    setState(() {
+                      medicines = MedicineDatabaseHelper()
+                          .getMedicinesByCategory(widget.category);
+                    });
+                  },
+                ),
                 onTap: () {
-                  // Handle the tap, for example, navigate to medicine details page
+                  // TODO: Maybe show medicine details?
                 },
               );
             },

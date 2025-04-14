@@ -46,7 +46,7 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Categories",
+                "Категорії",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
@@ -61,7 +61,7 @@ class _FirstAidScreenState extends State<FirstAidScreen> {
                   _categoryCard(
                     context,
                     Icons.bloodtype,
-                    "Кропоспинні",
+                    "Кровоспинні",
                     _hemostaticAgents,
                   ),
                   _categoryCard(

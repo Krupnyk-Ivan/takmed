@@ -26,6 +26,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
   IconData? _selectedIcon;
   DateTime? _expirationDate;
   String? _selectedCategory;
+  bool _isDangerous = false;
 
   // Categories to choose from
   final List<String> _categories = [
@@ -78,6 +79,7 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
       note: _noteController.text,
       expirationDate: _expirationDate!,
       category: _selectedCategory!,
+      isDangerous: _isDangerous,
     );
 
     // Save the medicine to SQLite
@@ -193,13 +195,24 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
                       )
                       .toList(),
             ),
+            CheckboxListTile(
+              title: const Text("⚠️ Небезпечні ліки"),
+              value: _isDangerous,
+              onChanged: (value) {
+                setState(() {
+                  _isDangerous = value ?? false;
+                });
+              },
+            ),
             const SizedBox(height: 20),
+
             // Optional note
             TextField(
               controller: _noteController,
               decoration: const InputDecoration(labelText: "Примітка"),
               maxLines: 3,
             ),
+
             const SizedBox(height: 20),
             // Save button
             ElevatedButton(onPressed: _saveMedicine, child: const Text("Save")),

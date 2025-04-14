@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_navigator.dart';
 import 'package:provider/provider.dart';
 import 'medicine_pages/first_aid_screen.dart';
+import 'stats_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -81,7 +82,7 @@ class ProfilePage extends StatelessWidget {
               Navigator.pushNamed(context, '/form');
             }),
             _buildProfileButton(context, 'Статистика', () {
-              Navigator.pushNamed(context, '/stats');
+              appNav.navigateTo(const StatsScreen());
             }),
           ],
         ),

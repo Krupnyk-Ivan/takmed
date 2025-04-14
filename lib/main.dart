@@ -13,6 +13,7 @@ import './info_pages/march_protocol_page.dart';
 import './info_pages/cls_page.dart';
 import 'package:provider/provider.dart';
 import 'app_navigator.dart';
+import './database/medicine_db/delete_database_medicine.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ void main() async {
   if (await Permission.notification.isDenied) {
     await Permission.notification.request();
   }
-
+  // await deleteMedicineDatabase();
   runApp(
     ChangeNotifierProvider(create: (_) => AppNavigator(), child: const MyApp()),
   );
