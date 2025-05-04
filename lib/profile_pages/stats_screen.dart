@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../database/stats_db_helper.dart';
+import '../../database/stats_db_helper.dart';
 
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
-
+  const StatsScreen({super.key, required this.dbHelper});
+  final StatsDatabaseHelper dbHelper;
   @override
   State<StatsScreen> createState() => _StatsScreenState();
 }
@@ -23,7 +23,8 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Future<void> _loadStats() async {
-    final stats = await StatsDatabaseHelper().getAllStats();
+    final stats =
+        await widget.dbHelper.getAllStats(); // <<< Use widget.dbHelper
 
     int totalScore = 0;
     int totalTime = 0;

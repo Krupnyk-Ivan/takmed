@@ -9,7 +9,9 @@ class TestScreen extends StatefulWidget {
   final String category;
 
   const TestScreen({super.key, required this.category});
-
+  factory TestScreen.simple(String category) {
+    return TestScreen(category: category);
+  }
   @override
   State<TestScreen> createState() => _TestScreenState();
 }

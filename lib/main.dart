@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'info_pages/military_page.dart';
 import 'info_pages/civilian_page.dart';
-import 'profile_page.dart';
+import 'package:takmed/profile_pages/profile_page.dart';
 import 'test_pages/choose_test_page.dart';
 import 'test_pages/test_screen.dart';
 import 'medicine_pages/first_aid_screen.dart';

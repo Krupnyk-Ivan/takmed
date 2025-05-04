@@ -16,7 +16,12 @@ class _VideoScreenWidgetState extends State<VideoScreenWidget> {
   void initState() {
     super.initState();
     _flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.asset('assets/video1.mp4'),
+      videoPlayerController:
+          VideoPlayerController.asset('assets/video1.mp4')
+            ..setLooping(false)
+            ..initialize().then((_) {
+              _flickManager.flickVideoManager?.videoPlayerController?.pause();
+            }),
     );
   }
 

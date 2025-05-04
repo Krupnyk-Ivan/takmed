@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../app_navigator.dart';
+import '../../app_navigator.dart';
 import 'package:provider/provider.dart';
-import 'medicine_pages/first_aid_screen.dart';
+import '../medicine_pages/first_aid_screen.dart';
 import 'stats_screen.dart';
+import '../database/stats_db_helper.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -72,7 +73,7 @@ class ProfilePage extends StatelessWidget {
   // **Profile Buttons Grid**
   Widget _buildProfileButtonsGrid(BuildContext context) {
     final appNav = Provider.of<AppNavigator>(context, listen: false);
-
+    final dbHelper = StatsDatabaseHelper();
     return Column(
       children: [
         Row(
@@ -82,7 +83,9 @@ class ProfilePage extends StatelessWidget {
               Navigator.pushNamed(context, '/form');
             }),
             _buildProfileButton(context, 'Статистика', () {
-              appNav.navigateTo(const StatsScreen());
+              appNav.navigateTo(
+                StatsScreen(dbHelper: dbHelper),
+              ); // Remove 'const' if dbHelper isn't const
             }),
           ],
         ),

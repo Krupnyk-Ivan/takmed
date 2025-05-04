@@ -4,8 +4,13 @@ import '../database/medicine_db/medicine.dart'; // Your medicine model
 
 class FirstAidCategoryScreen extends StatefulWidget {
   final String category;
+  final MedicineDatabaseHelper? dbHelper; // Allow injecting a helper
 
-  const FirstAidCategoryScreen({super.key, required this.category});
+  const FirstAidCategoryScreen({
+    super.key,
+    required this.category,
+    this.dbHelper, // Accept injected helper
+  });
 
   @override
   _FirstAidCategoryScreenState createState() => _FirstAidCategoryScreenState();
@@ -13,14 +18,16 @@ class FirstAidCategoryScreen extends StatefulWidget {
 
 class _FirstAidCategoryScreenState extends State<FirstAidCategoryScreen> {
   late Future<List<Medicine>> medicines;
+  late MedicineDatabaseHelper _dbHelper;
 
   @override
   void initState() {
     super.initState();
     // Fetch medicines based on the passed category
-    medicines = MedicineDatabaseHelper().getMedicinesByCategory(
-      widget.category,
-    );
+    _dbHelper = widget.dbHelper ?? MedicineDatabaseHelper();
+
+    // Fetch medicines based on the passed category using the selected dbHelper
+    medicines = _dbHelper.getMedicinesByCategory(widget.category);
   }
 
   @override
@@ -75,10 +82,11 @@ class _FirstAidCategoryScreenState extends State<FirstAidCategoryScreen> {
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () async {
-                    await MedicineDatabaseHelper().deleteMedicine(medicine.id!);
+                    await _dbHelper.deleteMedicine(medicine.id!);
                     setState(() {
-                      medicines = MedicineDatabaseHelper()
-                          .getMedicinesByCategory(widget.category);
+                      medicines = _dbHelper.getMedicinesByCategory(
+                        widget.category,
+                      );
                     });
                   },
                 ),

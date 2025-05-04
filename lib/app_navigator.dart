@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'profile_page.dart';
+import 'profile_pages/profile_page.dart';
 import 'test_pages/choose_test_page.dart';
 import 'test_pages/test_screen.dart';
 
 import 'main.dart';
 import 'package:flutter/material.dart';
 
-import 'profile_page.dart';
+import 'profile_pages/profile_page.dart';
 import 'test_pages/choose_test_page.dart';
 import 'test_pages/test_screen.dart';
 import './info_pages/march_protocol_page.dart';

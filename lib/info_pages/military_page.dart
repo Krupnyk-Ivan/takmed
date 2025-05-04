@@ -21,7 +21,7 @@ class MilitaryPage extends StatelessWidget {
             const SizedBox(height: 16),
 
             const Text(
-              'Протоколи тактичної медицини',
+              'Військовим',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
